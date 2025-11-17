@@ -2,7 +2,8 @@ import type { BoxEntry, Pokemon } from "../types/types";
 
 export class PokemonAPI {
     static BASE_URL = 'https://hw4.cis1962.esinx.net/api/';
-    static PAGE_SIZE = 100;
+    static PAGE_SIZE = 10;
+    static jwtToken = import.meta.env.API_TOKEN;
 
     static async getAllPokemon(pageNumber: number): Promise<Pokemon[]> {
         try {
@@ -20,11 +21,10 @@ export class PokemonAPI {
     }
 
     static async getPokemonByName(name: string): Promise<Pokemon> {
-        const jwtToken = localStorage.getItem('jwtToken');
         try {
             const response = await fetch(`${PokemonAPI.BASE_URL}pokemon/${name}`, {
                 headers: {
-                    Authorization: `Bearer ${jwtToken}`
+                    Authorization: `Bearer ${PokemonAPI.jwtToken}`
                 }
             });
             if (!response.ok) {
@@ -39,11 +39,10 @@ export class PokemonAPI {
     }
 
     static async getBox(): Promise<string[]>{
-        const jwtToken = localStorage.getItem('jwtToken');
             try {
             const response = await fetch(`${PokemonAPI.BASE_URL}box/`, {
                 headers: {
-                    Authorization: `Bearer ${jwtToken}`
+                    Authorization: `Bearer ${PokemonAPI.jwtToken}`
                 }
             });
             if (!response.ok) {
@@ -58,13 +57,12 @@ export class PokemonAPI {
     }
 
     static async addBoxEntry(entry: BoxEntry): Promise<BoxEntry> {
-        const jwtToken = localStorage.getItem('jwtToken');
         try {
             const response = await fetch(`${PokemonAPI.BASE_URL}box/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${jwtToken}`
+                    Authorization: `Bearer ${PokemonAPI.jwtToken}`
                 },
                 body: JSON.stringify(entry)
             });
@@ -80,11 +78,10 @@ export class PokemonAPI {
     }
     
     static async getBoxEntry(id: string): Promise<BoxEntry> {
-        const jwtToken = localStorage.getItem('jwtToken');
         try {
             const response = await fetch(`${PokemonAPI.BASE_URL}box/${id}`, {
                 headers: {
-                    Authorization: `Bearer ${jwtToken}`
+                    Authorization: `Bearer ${PokemonAPI.jwtToken}`
                 }
             });
             if (!response.ok) {
@@ -99,13 +96,12 @@ export class PokemonAPI {
     }
 
     static async updateBox(id: string, entry: Partial<BoxEntry>): Promise<BoxEntry> {
-        const jwtToken = localStorage.getItem('jwtToken');
         try {
             const response = await fetch(`${PokemonAPI.BASE_URL}box/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${jwtToken}`
+                    Authorization: `Bearer ${PokemonAPI.jwtToken}`
                 },
                 body: JSON.stringify(entry)
             });
@@ -122,12 +118,11 @@ export class PokemonAPI {
     }
 
     static async deleteBoxEntry(id: string): Promise<null> {
-        const jwtToken = localStorage.getItem('jwtToken');
         try {
             const response = await fetch(`${PokemonAPI.BASE_URL}box/${id}`, {
                 method: 'DELETE',
                 headers: {
-                    Authorization: `Bearer ${jwtToken}`
+                    Authorization: `Bearer ${PokemonAPI.jwtToken}`
                 }
             });
             if (!response.ok) {

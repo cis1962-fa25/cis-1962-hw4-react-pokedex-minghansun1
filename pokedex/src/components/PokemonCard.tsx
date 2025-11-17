@@ -1,11 +1,8 @@
-import type { Pokemon } from '../types/types';
+import type { PokemonCardProps } from '../types/types';
 
-interface PokemonCardProps {
-  pokemon: Pokemon;
-  onClick: () => void;
-}
 
 export function PokemonCard(props: PokemonCardProps) {
+
     return (
         <div className="pokemon-card" onClick={props.onClick}>
             <h1>{props.pokemon.name}</h1>

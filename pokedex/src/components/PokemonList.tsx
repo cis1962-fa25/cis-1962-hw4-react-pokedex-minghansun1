@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react';
-import { PokemonAPI } from '../api/pokemonApi';
+import { PokemonAPI } from '../api/PokemonAPI';
 import type { Pokemon } from '../types/types';
+import Modal from './Modal';
 import { PokemonCard } from './PokemonCard';
-
-interface PokemonCardProps {
-  pokemon: Pokemon;
-  onClick: () => void;
-}
+import { PokemonDetails } from './PokemonDetails';
 
 export function PokemonList() {
     const [pokemon, setPokemon] = useState<Pokemon[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
 
     useEffect(() => {
         const fetchPokemon = async () => {
@@ -26,6 +25,8 @@ export function PokemonList() {
 
     const handleCardClick = (pokemon: Pokemon) => {
         console.log('Clicked Pokemon:', pokemon.name);
+        setModalOpen(true);
+        setSelectedPokemon(pokemon);
     }
 
     const handlePrevClick = () => {
@@ -50,6 +51,9 @@ export function PokemonList() {
                     <PokemonCard key={p.id} pokemon={p} onClick={() => handleCardClick(p)} />
                 ))}
             </div>
+            <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+                <PokemonDetails pokemon={selectedPokemon!} onClick={() => {}} />
+            </Modal>
         </div>
     )
 }
