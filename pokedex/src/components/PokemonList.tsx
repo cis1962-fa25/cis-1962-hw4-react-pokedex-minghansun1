@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { PokemonAPI } from '../api/PokemonAPI';
+import '../App.css';
 import type { Pokemon } from '../types/types';
 import Modal from './Modal';
 import { PokemonCard } from './PokemonCard';
@@ -16,15 +17,22 @@ export function PokemonList() {
     useEffect(() => {
         const fetchPokemon = async () => {
             setLoading(true);
-            const pokemonList = await PokemonAPI.getAllPokemon(currentPage);
-            setPokemon(pokemonList);
-            setLoading(false);
+            try {
+                const pokemonList = await PokemonAPI.getAllPokemon(currentPage);
+                setPokemon(pokemonList);
+                setLoading(false);
+            } catch (err) {
+                const errMessage = (err as Error).message;
+                setError('Failed to fetch Pokemon.' + (err as Error).message);
+                setError(errMessage);
+                setLoading(false);
+                console.log(err);
+            }
         }
         fetchPokemon();
     }, [currentPage]);
 
     const handleCardClick = (pokemon: Pokemon) => {
-        console.log('Clicked Pokemon:', pokemon.name);
         setModalOpen(true);
         setSelectedPokemon(pokemon);
     }
@@ -42,19 +50,32 @@ export function PokemonList() {
     return (
         <div>
             <div>
-                <h2>Pokemon List</h2>
+                <h1>Pokemon List</h1>
             </div>
             <button onClick={handlePrevClick} disabled={currentPage === 1}>Previous</button>
             <button onClick={handleNextClick}>Next</button>
-            <div>
-                {pokemon.map(p => (
-                    <PokemonCard key={p.id} pokemon={p} onClick={() => handleCardClick(p)} />
-                ))}
-            </div>
+            {loading ? (
+                <div>
+                    <h3>Loading...</h3>
+                    <div className="spinner"></div>
+                </div>
+            ) : (
+                error!=null ? (
+                    <div>
+                        <h3>Error fetching Pokemon:</h3>
+                        <p>{error}</p>
+                    </div>
+                ) :(
+                    <div>
+                        {pokemon.map(p => (
+                        <PokemonCard key={p.id} pokemon={p} onClick={() => handleCardClick(p)} />
+                        ))}
+                    </div>
+                )
+            )}
             <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
                 <PokemonDetails pokemon={selectedPokemon!} onClick={() => {}} />
             </Modal>
         </div>
     )
 }
-

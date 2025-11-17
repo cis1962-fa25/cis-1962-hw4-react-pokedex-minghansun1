@@ -1,5 +1,38 @@
 import type { BoxEntry, Pokemon } from "../types/types";
 
+async function handleResponse(response: Response) {
+    if (response.ok) {
+        return response.json();
+    }
+
+    let message = `HTTP ${response.status}`;
+
+    try {
+        const data = await response.json();
+
+        if (typeof data === "string") {
+            message += ": " +  data;
+        } else if (data?.error) {
+            message += ": " + data.error;
+        } else if (data?.message) {
+            message += ": " +  data.message;
+        } else if (data?.detail) {
+            message += ": " + data.detail;
+        } else {
+            message += ": " + JSON.stringify(data);
+        }
+    } catch {
+        try {
+            const text = await response.text();
+            if (text) message +=  ": " +  text;
+        } catch {
+            // Nothing readable
+        }
+    }
+
+    throw new Error(message);
+}
+
 export class PokemonAPI {
     static BASE_URL = 'https://hw4.cis1962.esinx.net/api/';
     static PAGE_SIZE = 10;
@@ -7,13 +40,9 @@ export class PokemonAPI {
 
     static async getAllPokemon(pageNumber: number): Promise<Pokemon[]> {
         try {
-            const offset = (pageNumber - 1) * PokemonAPI.PAGE_SIZE;
+            const offset = (pageNumber -1) * PokemonAPI.PAGE_SIZE;
             const response = await fetch(`${PokemonAPI.BASE_URL}pokemon/?limit=${PokemonAPI.PAGE_SIZE}&offset=${offset}`);
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-            const data = await response.json();
-            return data;
+            return await handleResponse(response);
         } catch (error) {
             console.error('Error fetching all Pokemon:', error);
             throw error;
@@ -27,11 +56,7 @@ export class PokemonAPI {
                     Authorization: `Bearer ${PokemonAPI.jwtToken}`
                 }
             });
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-            const data = await response.json();
-            return data;
+            return await handleResponse(response);
         } catch (error) {
             console.error('Error fetching Pokemon by name:', error);
             throw error;
@@ -45,11 +70,7 @@ export class PokemonAPI {
                     Authorization: `Bearer ${PokemonAPI.jwtToken}`
                 }
             });
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-            const data = await response.json();
-            return data;
+            return await handleResponse(response);
         } catch (error) {
             console.error('Error fetching box entries:', error);
             throw error;
@@ -66,11 +87,7 @@ export class PokemonAPI {
                 },
                 body: JSON.stringify(entry)
             });
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-            const data = await response.json();
-            return data;
+            return await handleResponse(response);
         } catch (error) {
             console.error('Error adding box entry:', error);
             throw error;
@@ -84,11 +101,7 @@ export class PokemonAPI {
                     Authorization: `Bearer ${PokemonAPI.jwtToken}`
                 }
             });
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-            const data = await response.json();
-            return data;
+            return await handleResponse(response);
         } catch (error) {
             console.error('Error fetching box entry by id:', error);
             throw error;
@@ -105,11 +118,7 @@ export class PokemonAPI {
                 },
                 body: JSON.stringify(entry)
             });
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-            const data = await response.json();
-            return data;
+            return await handleResponse(response);
         } catch (error) {
             console.error('Error updating box entry:', error);
             throw error;
@@ -126,7 +135,7 @@ export class PokemonAPI {
                 }
             });
             if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
             }
             return null;
         } catch (error) {
