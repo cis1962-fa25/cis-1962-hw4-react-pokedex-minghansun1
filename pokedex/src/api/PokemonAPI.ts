@@ -1,4 +1,4 @@
-import type { BoxEntry, Pokemon } from "../types/types";
+import type { BoxEntry, InsertBoxEntry, Pokemon } from "../types/types";
 
 async function handleResponse(response: Response) {
     if (response.ok) {
@@ -36,11 +36,11 @@ async function handleResponse(response: Response) {
 export class PokemonAPI {
     static BASE_URL = 'https://hw4.cis1962.esinx.net/api/';
     static PAGE_SIZE = 10;
-    static jwtToken = import.meta.env.API_TOKEN;
+    static jwtToken = import.meta.env.VITE_API_KEY;
 
     static async getAllPokemon(pageNumber: number): Promise<Pokemon[]> {
         try {
-            const offset = (pageNumber -1) * PokemonAPI.PAGE_SIZE;
+            const offset = (pageNumber - 1) * PokemonAPI.PAGE_SIZE;
             const response = await fetch(`${PokemonAPI.BASE_URL}pokemon/?limit=${PokemonAPI.PAGE_SIZE}&offset=${offset}`);
             return await handleResponse(response);
         } catch (error) {
@@ -63,7 +63,7 @@ export class PokemonAPI {
         }
     }
 
-    static async getBox(): Promise<string[]>{
+    static async getBoxes(): Promise<string[]>{
             try {
             const response = await fetch(`${PokemonAPI.BASE_URL}box/`, {
                 headers: {
@@ -77,7 +77,7 @@ export class PokemonAPI {
         }
     }
 
-    static async addBoxEntry(entry: BoxEntry): Promise<BoxEntry> {
+    static async addBoxEntry(entry: InsertBoxEntry): Promise<BoxEntry> {
         try {
             const response = await fetch(`${PokemonAPI.BASE_URL}box/`, {
                 method: 'POST',
@@ -108,7 +108,7 @@ export class PokemonAPI {
         }
     }
 
-    static async updateBox(id: string, entry: Partial<BoxEntry>): Promise<BoxEntry> {
+    static async updateBoxEntry(id: string, entry: Partial<BoxEntry>): Promise<BoxEntry> {
         try {
             const response = await fetch(`${PokemonAPI.BASE_URL}box/${id}`, {
                 method: 'PUT',
@@ -118,6 +118,7 @@ export class PokemonAPI {
                 },
                 body: JSON.stringify(entry)
             });
+            console.log(JSON.stringify(entry));
             return await handleResponse(response);
         } catch (error) {
             console.error('Error updating box entry:', error);

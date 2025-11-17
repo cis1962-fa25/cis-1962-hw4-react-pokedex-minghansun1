@@ -6,13 +6,14 @@ import Modal from './Modal';
 import { PokemonCard } from './PokemonCard';
 import { PokemonDetails } from './PokemonDetails';
 
-export function PokemonList() {
+export function PokemonList(props: {update: number, onUpdate: () => void}) {
     const [pokemon, setPokemon] = useState<Pokemon[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
+    const [updated, setUpdated] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchPokemon = async () => {
@@ -30,7 +31,7 @@ export function PokemonList() {
             }
         }
         fetchPokemon();
-    }, [currentPage]);
+    }, [currentPage, props.update, updated]);
 
     const handleCardClick = (pokemon: Pokemon) => {
         setModalOpen(true);
@@ -60,21 +61,20 @@ export function PokemonList() {
                     <div className="spinner"></div>
                 </div>
             ) : (
-                error!=null ? (
-                    <div>
-                        <h3>Error fetching Pokemon:</h3>
-                        <p>{error}</p>
-                    </div>
-                ) :(
-                    <div>
-                        {pokemon.map(p => (
-                        <PokemonCard key={p.id} pokemon={p} onClick={() => handleCardClick(p)} />
-                        ))}
-                    </div>
-                )
+                <div>
+                    {pokemon.map(p => (
+                    <PokemonCard key={p.id} pokemon={p} onClick={() => handleCardClick(p)} />
+                    ))}
+                </div>
             )}
             <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-                <PokemonDetails pokemon={selectedPokemon!} onClick={() => {}} />
+                <PokemonDetails pokemon={selectedPokemon!} onClick={() => {}} onCatch={() => {setUpdated(true); setModalOpen(false); props.onUpdate();}} />
+            </Modal>
+            <Modal isOpen={error!=null} onClose={() => setError(null)}>
+                <div>
+                    <h3>Error fetching Pokemon:</h3>
+                    <p>{error}</p>
+                </div>
             </Modal>
         </div>
     )

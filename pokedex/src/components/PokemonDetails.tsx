@@ -1,11 +1,20 @@
+import { useState } from 'react';
 import type { PokemonCardProps } from '../types/types';
+import Modal from './Modal';
+import { CatchForm } from './CatchForm';
 
 
-export function PokemonDetails(props: PokemonCardProps) {
+export function PokemonDetails(props: PokemonCardProps & {onCatch: () => void}) {
+    const [catching, setCatching] = useState<boolean>(false);
+
+    const handleCatch = () => {
+        setCatching(true);
+    }
 
     return (
         <div className="pokemon-card" onClick={props.onClick}>
             <h1>{props.pokemon.name}</h1>
+            <button onClick={handleCatch}>Catch</button>
             <br />
             <img src={props.pokemon.sprites.front_default} alt={props.pokemon.name} />
             <br />
@@ -52,6 +61,9 @@ export function PokemonDetails(props: PokemonCardProps) {
                     </tbody>
                 </table>
             </div>
+            <Modal isOpen={catching} onClose={() => setCatching(false)}>
+                <CatchForm pokemon={props.pokemon} onClick={() => {}} onCatch={props.onCatch}  />
+            </Modal>
         </div>
     )
 }
