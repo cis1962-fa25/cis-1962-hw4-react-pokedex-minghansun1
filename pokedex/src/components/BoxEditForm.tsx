@@ -58,36 +58,39 @@ export function BoxEditForm(props: BoxCardProps) {
     };
 
     return (
-        <div>
+        <div className = "form">
             <h2>Editing {props.pokemon.name}...</h2>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={handleSubmit}>
-                <label>
+                <label className="form-label">
                     pokemonId:
                     <input type="number" value={props.pokemon.id} disabled />
                 </label>
                 <br />
-                <label>
+                <label className="form-label">
                     location:
                     <input
+                        className="form-input"
                         type="text"
                         value={location}
                         onChange={(e) => setLocation(e.target.value)}
                     />
                 </label>
                 <br />
-                <label>
+                <label className="form-label">
                     createdAt:
                     <input
+                        className="form-input"
                         type="date"
                         value={createdAt}
                         onChange={(e) => setCreatedAt(e.target.value)}
                     />
                 </label>
                 <br />
-                <label>
+                <label className="form-label">
                     level:
                     <input
+                        className="form-input"
                         type="number"
                         value={level}
                         onChange={(e) => setLevel(Number(e.target.value))}
@@ -96,16 +99,17 @@ export function BoxEditForm(props: BoxCardProps) {
                     />
                 </label>
                 <br />
-                <label>
+                <label className="form-label">
                     notes:
                     <input
+                        className="form-input"
                         type="text"
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
                     />
                 </label>
                 <br />
-                <input type="submit" value="Submit" />
+                <input className="button" type="submit" value="Submit" />
             </form>
             <Modal isOpen={error!=null} onClose={() => setError(null)}>
                 <div>

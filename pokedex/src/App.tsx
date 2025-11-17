@@ -21,8 +21,8 @@ function App() {
 
   return (
     <div>
-      <button onClick={setStatePokemon}>All Pokemon</button>
-      <button onClick={setStateBox}>My Box</button>
+      <button className="button" onClick={setStatePokemon}>All Pokemon</button>
+      <button className="button" onClick={setStateBox}>My Box</button>
       <div style={{ display: state === 'pokemon' ? 'block' : 'none' }}>
         <PokemonList update={update} onUpdate={onUpdate} />
       </div>

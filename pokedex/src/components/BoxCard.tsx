@@ -53,8 +53,8 @@ export function BoxCard(props: BoxCardProps) {
                     <p> Level: {props.entry.level}</p>
                     <p> Notes: {props.entry.notes}</p>
                     <br />
-                    <button onClick={handleEdit}>Edit</button>
-                    <button onClick={handleDelete}>Delete</button>
+                    <button className="edit-button" onClick={handleEdit}>Edit</button>
+                    <button className="delete-button" onClick={handleDelete}>Delete</button>
                     <Modal isOpen={editing} onClose={() => setEditing(false)}>
                         <BoxEditForm entry = {props.entry} pokemon={props.pokemon} onEdit={props.onEdit} onDelete={props.onDelete} />
                     </Modal>

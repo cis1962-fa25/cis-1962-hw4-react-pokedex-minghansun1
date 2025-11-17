@@ -53,8 +53,9 @@ export function PokemonList(props: {update: number, onUpdate: () => void}) {
             <div>
                 <h1>Pokemon List</h1>
             </div>
-            <button onClick={handlePrevClick} disabled={currentPage === 1}>Previous</button>
-            <button onClick={handleNextClick}>Next</button>
+            <button className="button" onClick={handlePrevClick} disabled={currentPage === 1}>Previous</button>
+            <button className="button" onClick={handleNextClick}>Next</button>
+            <br/>
             {loading ? (
                 <div>
                     <h3>Loading...</h3>
@@ -63,7 +64,9 @@ export function PokemonList(props: {update: number, onUpdate: () => void}) {
             ) : (
                 <div>
                     {pokemon.map(p => (
-                    <PokemonCard key={p.id} pokemon={p} onClick={() => handleCardClick(p)} />
+                        <div className="pokemon-card">
+                            <PokemonCard key={p.id} pokemon={p} onClick={() => handleCardClick(p)} />
+                        </div>
                     ))}
                 </div>
             )}

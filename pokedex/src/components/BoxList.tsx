@@ -81,7 +81,9 @@ export function BoxList(props: {update: number, onUpdate: () => void}) {
             ) : (
                 <div>
                     {boxCardProps.map((props, index) => (
-                        <BoxCard key={index} {...props} />
+                        <div className="entry-card">
+                            <BoxCard key={index} {...props} />
+                        </div>
                     ))}
                 </div>
             )}

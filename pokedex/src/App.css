@@ -56,3 +56,81 @@
     transform: rotate(360deg);
   }
 }
+
+.pokemon-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.button {
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #7aa4e8;
+  color: rgb(27, 2, 2);
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: #5b8cd6;
+}
+
+.edit-button {
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #7aa4e8;
+  color: rgb(27, 2, 2);
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.delete-button {
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #e87a7a;
+  color: rgb(27, 2, 2);
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.entry-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.form {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.form label {
+  display: block;
+  font-weight: bold;
+}
+
+.form-input {
+  width: 90%;
+  padding: 8px;
+  margin-bottom: 6px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}

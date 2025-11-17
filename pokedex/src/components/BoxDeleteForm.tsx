@@ -26,12 +26,12 @@ export function BoxDeleteForm(props: BoxCardProps) {
     };
 
     return (
-        <div>
+        <div className="form">
             <h2>Deleting {props.pokemon.name}...</h2>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={handleSubmit}>
                 <p>Are you sure you want to delete this entry?</p>
-                <input type="submit" value="Submit" />
+                <input className="button" type="submit" value="Submit" />
             </form>
             <Modal isOpen={error!=null} onClose={() => setError(null)}>
                 <div>
