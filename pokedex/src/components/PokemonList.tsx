@@ -13,7 +13,6 @@ export function PokemonList(props: {update: number, onUpdate: () => void}) {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
-    const [updated, setUpdated] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchPokemon = async () => {
@@ -31,7 +30,7 @@ export function PokemonList(props: {update: number, onUpdate: () => void}) {
             }
         }
         fetchPokemon();
-    }, [currentPage, props.update, updated]);
+    }, [currentPage]);
 
     const handleCardClick = (pokemon: Pokemon) => {
         setModalOpen(true);
@@ -71,7 +70,7 @@ export function PokemonList(props: {update: number, onUpdate: () => void}) {
                 </div>
             )}
             <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-                <PokemonDetails pokemon={selectedPokemon!} onClick={() => {}} onCatch={() => {setUpdated(true); setModalOpen(false); props.onUpdate();}} />
+                <PokemonDetails pokemon={selectedPokemon!} onClick={() => {}} onCatch={() => {setModalOpen(false); props.onUpdate();}} />
             </Modal>
             <Modal isOpen={error!=null} onClose={() => setError(null)}>
                 <div>

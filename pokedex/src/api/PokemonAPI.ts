@@ -37,11 +37,12 @@ export class PokemonAPI {
     static BASE_URL = 'https://hw4.cis1962.esinx.net/api/';
     static PAGE_SIZE = 10;
     static jwtToken = import.meta.env.VITE_API_KEY;
+    static maxPokemonId = 874;
 
     static async getAllPokemon(pageNumber: number): Promise<Pokemon[]> {
         try {
-            const offset = (pageNumber - 1) * PokemonAPI.PAGE_SIZE;
-            const response = await fetch(`${PokemonAPI.BASE_URL}pokemon/?limit=${PokemonAPI.PAGE_SIZE}&offset=${offset}`);
+            const offset = (PokemonAPI.PAGE_SIZE * (pageNumber - 1));
+            const response = await fetch(`${PokemonAPI.BASE_URL}pokemon/?limit=${this.PAGE_SIZE}&offset=${offset}`);
             return await handleResponse(response);
         } catch (error) {
             console.error('Error fetching all Pokemon:', error);
@@ -63,7 +64,7 @@ export class PokemonAPI {
         }
     }
 
-    static async getBoxes(): Promise<string[]>{
+    static async getBoxEntries(): Promise<string[]>{
             try {
             const response = await fetch(`${PokemonAPI.BASE_URL}box/`, {
                 headers: {

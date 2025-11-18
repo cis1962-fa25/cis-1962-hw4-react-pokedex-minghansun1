@@ -40,9 +40,9 @@ export function BoxList(props: {update: number, onUpdate: () => void}) {
         const fetchBoxes = async () => {
             try {
                 setLoading(true);
-                const boxList = await PokemonAPI.getBoxes();
+                const boxEntryList = await PokemonAPI.getBoxEntries();
                 const propsList: BoxCardProps[] = [];
-                for (const id of boxList) {
+                for (const id of boxEntryList) {
                     const boxEntry = await PokemonAPI.getBoxEntry(id);
                     const pokemonName = await getIdToNameMap(boxEntry.pokemonId.toString());
                     const pokemon = await PokemonAPI.getPokemonByName(pokemonName);
